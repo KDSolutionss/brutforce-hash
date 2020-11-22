@@ -1,0 +1,14 @@
+let S = new Array();
+S = "abcabdecabc";
+let T = new Array();
+T = "abc";
+
+for (let i = 0; i < S.length - T.length + 1; i++) {
+    for (let j = 0; j < T.length; j++) {
+        if (S[i + j] != T[j])
+            break;
+        if (j == T.length - 1) {
+            console.log(i + 1);
+        }
+    }
+}
