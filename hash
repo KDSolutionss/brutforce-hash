@@ -4,7 +4,6 @@ let T = new Array();
 T = "abc";
 let hashS = 0;
 let hashT = 0;
-let match = new Array();
 for (let i = 0; i < T.length + 1; i++) {
     hashS += S.charCodeAt(S[i])
     hashT += T.charCodeAt(T[i])
