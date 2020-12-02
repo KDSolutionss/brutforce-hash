@@ -1,79 +1,67 @@
-let fs = require ('fs');
+let fs = require('fs');
 let arg = process.argv;
 let S = fs.readFileSync('vim.txt');
-S=S.toString();
-let T="война";
+S = S.toString();
+let T = "война";
 let hashS = 0;
 let hashT = 0;
-function SimpleHashSet(hashS,hashT) {
-for (let i = 0; i < T.length ; i++) {
-    hashS += S.charCodeAt(i);
-    hashT += T.charCodeAt(i);
+function SimpleHashSet(hashS, hashT) {
+    for (let i = 0; i < T.length; i++) {
+        hashS += S.charCodeAt(i);
+        hashT += T.charCodeAt(i);
+    }
+    for (let j = 0; j < S.length - T.length; j++) {
+        if (hashS - hashT == 0) {
+            for (let z = 0; z < S.length - T.length; z++) {
+                if (S[j + z] != T[z])
+                    break;
+                if (z == T.length - 1) {
+                    console.log(j + 1);
+                }
+            }
+        }
+        hashS = hashS + S.charCodeAt(j + T.length) - S.charCodeAt(j);
+    }
+    console.log("SimpleHash");
 }
-for (let j = 0; j < S.length-T.length; j++) 
-{
-if (hashS-hashT==0)
-{
-for (let z=0;z<S.length - T.length;z++)
-{
-if (S[j+z]!=T[z])
-break;	
-if (z == T.length-1)
-{
-console.log(j+1);
+function QuadroHashSet(hashS, hashT) {
+    for (let i = 0; i < T.length; i++) {
+        hashS += Math.pow(S.charCodeAt(i), 2);
+        hashT += Math.pow(T.charCodeAt(i), 2);
+    }
+    for (let j = 0; j < S.length - T.length; j++) {
+        if (hashS - hashT == 0) {
+            for (let z = 0; z < S.length - T.length; z++) {
+                if (S[j + z] != T[z])
+                    break;
+                if (z == T.length - 1) {
+                    console.log(j + 1);
+                }
+            }
+        }
+        hashS = hashS + Math.pow(S.charCodeAt(j + T.length), 2) - Math.pow(S.charCodeAt(j), 2);
+    }
+    console.log("QuadroHash");
 }
+function RabinCarpHashSet(hashS, hashT) {
+    for (let i = 0; i < T.length; i++) {
+        hashS += S.charCodeAt(i) * Math.pow(2, T.length - 1 - i);
+        hashT += T.charCodeAt(i) * Math.pow(2, T.length - 1 - i);
+    }
+    for (let j = 0; j < S.length - T.length; j++) {
+        if (hashS - hashT == 0) {
+            for (let z = 0; z < S.length - T.length; z++) {
+                if (S[j + z] != T[z])
+                    break;
+                if (z == T.length - 1) {
+                    console.log(j + 1);
+                }
+            }
+        }
+        hashS = (hashS - S.charCodeAt(j) * Math.pow(2, T.length - 1)) * 2 + S.charCodeAt(j + T.length);
+    }
+    console.log("RabinCarpHash");
 }
-}    
-hashS = hashS + S.charCodeAt(j + T.length) - S.charCodeAt(j);
-}
-console.log("SimpleHash");
-}
-function QuadroHashSet(hashS,hashT){
-	for (let i = 0; i < T.length ; i++) {
-    hashS += Math.pow(S.charCodeAt(i),2);
-    hashT += Math.pow(T.charCodeAt(i),2);
-}
-for (let j = 0; j < S.length-T.length; j++) 
-{
-if (hashS-hashT==0)
-{
-for (let z=0;z<S.length - T.length;z++)
-{
-if (S[j+z]!=T[z])
-break;	
-if (z == T.length-1)
-{
-console.log(j+1);
-}
-}
-}    
-hashS = hashS + Math.pow(S.charCodeAt(j + T.length),2) - Math.pow(S.charCodeAt(j),2); 
-}
-console.log("QuadroHash");
-}
-function RabinCarpHashSet(hashS,hashT){
-for (let i = 0; i < T.length ; i++) {
-    hashS +=S.charCodeAt(i)*Math.pow(2,T.length-1-i);
-    hashT +=T.charCodeAt(i)*Math.pow(2,T.length-1-i);
-}
-for (let j = 0; j < S.length-T.length; j++) 
-{
-if (hashS-hashT==0)
-{
-for (let z=0;z<S.length - T.length;z++)
-{
-if (S[j+z]!=T[z])
-break;	
-if (z == T.length-1)
-{
-console.log(j+1);
-}
-}
-}    
-hashS = (hashS - S.charCodeAt(j)*Math.pow(2,T.length-1))*2+S.charCodeAt(j+T.length); 
-}
-console.log("RabinCarpHash");
-}
-SimpleHashSet(hashS,hashT);
-QuadroHashSet(hashS,hashT);
-RabinCarpHashSet(hashS,hashT);
+SimpleHashSet(hashS, hashT);
+QuadroHashSet(hashS, hashT);
+RabinCarpHashSet(hashS, hashT);
